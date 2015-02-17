@@ -35,16 +35,11 @@ public class Card extends JButton {
     // The number of cards
     public int cardCount = 8;
     
-    public Card(int round) {
+    public Card(int val, int theSuit) {
         
-        cardCount = cardCount * round;
+        value = val;
         
-        deck = new List(52);
-        
-        int cardsCreated = 0; // How many cards have been created so far.
-       
-        
-       
+        suit = theSuit;       
         
     }
     
