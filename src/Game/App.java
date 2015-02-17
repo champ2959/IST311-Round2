@@ -10,10 +10,12 @@ package Game;
  * @author emg5478, nahom
  */
 public class App {
+    
+   static myJFrame game; 
   
    public static void main(String args[]){
        
-       
+       game = new myJFrame();
        
    } 
     
