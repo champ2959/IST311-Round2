@@ -23,7 +23,7 @@ public class myJFrame extends JFrame{
     	getContentPane().add(p1,"Center");
 		
 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize (640, 480);
-		setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setSize (640, 480);
+	setVisible(true);
 }}

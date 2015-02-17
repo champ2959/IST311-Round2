@@ -21,44 +21,91 @@ public class DeckPanel extends JPanel {
     
     public DeckPanel(ArrayList theDeck, int theRound) {
         
+        // The Deck of 52 cards 
         deck = theDeck;
+        
+        // The game round were in
         round = theRound;
         
-        drawCards();
+        // The cards we'll use for this round
+        gameCards = new ArrayList<>();
         
-        int cloneCount = pairs;
+        // Shuffe the whole deck of cards
+        shuffleCards(true);
         
-        for (int i = 0; i < pairs; i++) {
+        // If were past the first round we will increase
+        // the number of pairs we have by 2 (add 4 cards)
+        // to the gameCards array (deck)
+        if (round > 1) {
+        
+            pairs = pairs + (2 * round);
             
-            gameCards.set(i, deck.get(i));
-            
-            gameCards.set(cloneCount, cloneCard((Card) deck.get(i)));
-            
-            cloneCount++;
         }
         
+        // Add the card to our gameCard list        
+        for (int i = 0; i < pairs; i++) {
+            
+            gameCards.add(i, (Card) deck.get(i));
+            
+        }
         
+        // Clone the cards we will need
+        for (int i = 0; i < pairs; i++) {
+            
+            int cloneIndex = (pairs + i);
+            
+            Card cardToClone = (Card) gameCards.get(i);
+            
+            gameCards.add(cloneIndex, cloneCard(cardToClone));
+        }
+        
+        // Shuffle the game cards to be
+        // placed randomly on the game board
+        shuffleCards(false);
+        
+       // Card c = (Card) gameCards.get(0);
+        
+       // System.out.println(c.toString());
     }
     
     public Card cloneCard(Card c) {
         
-        Card clone = new Card(c.suit, c.value);
+        Card clone = new Card(c.value, c.suit);
+
         return clone;
     }
     
-    public void drawCards() {
-          // Put all the used cards back into the deck, and shuffle it into
-          // a random order.
-        for ( int i = 51; i > 0; i-- ) {
+    public void shuffleCards(boolean wholeDeck) {
+               
+        if (wholeDeck == false) {
+
+            for (int i = ((pairs * 2) - 1); i > 0; i--) {
+                
+                int rand = (int)(Math.random()*(i+1));
             
-            int rand = (int)(Math.random()*(i+1));
+                Card temp = (Card) gameCards.get(i);
             
-            Object temp = deck.get(i);
+                gameCards.set(i, deck.get(rand));
             
-            deck.set(i, deck.get(rand));
-            deck.set(rand, temp);
+                gameCards.set(rand, temp);
+                
+            }
+            
         }
+        else {
+    
+            for (int i = 51; i > 0; i--) {
+            
+                int rand = (int)(Math.random()*(i+1));
+            
+                Card temp = (Card) deck.get(i);
+            
+                deck.set(i, deck.get(rand));
+            
+                deck.set(rand, temp);
+            }
         
+        }
         
         
     }

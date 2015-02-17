@@ -6,7 +6,6 @@
 package Game;
 
 import java.awt.List;
-import java.util.Vector;
 import javax.swing.JButton;
 
 /**
@@ -41,6 +40,13 @@ public class Card extends JButton {
         
         suit = theSuit;       
         
+    }
+    
+    public String getCardAsString() {
+        
+        String str = this.getValueAsString()+ " " + this.getSuit();
+     
+        return str;
     }
     
     /**

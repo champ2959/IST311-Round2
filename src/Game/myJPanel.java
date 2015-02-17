@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class myJPanel extends JPanel implements ActionListener {
     ArrayList<Card> deck;
     Card card;
+    DeckPanel deckPanel;
     boolean correct;
     int t = 0;
     Timer time;
@@ -35,7 +36,11 @@ public class myJPanel extends JPanel implements ActionListener {
         welcome = new JLabel(" Card Game ");
         welcome.setFont(f1);
         welcome.setBounds(210, 40, 225, 30);
-         
+        
+        this.createCards();
+        
+        
+        deckPanel = new DeckPanel(deck, 1);
         
        // card = c1;
         correct = false;
@@ -54,17 +59,17 @@ public class myJPanel extends JPanel implements ActionListener {
         deck = new ArrayList<>();
         
         // The number of cards created
-        int cards = 0;      
+        int cardCount = 0;      
         
         for (int suits = 0; suits <= 3; suits++) {
             
-            for (int value = 1; cards <= 13; value++) {
+            for (int value = 1; value <= 13; value++) {
                 
                 card = new Card(value, suits);
                 
-                deck.add(cards, card);
+                deck.add(cardCount, card);
                 
-                cards++;
+                cardCount++;
             }
             
         }
