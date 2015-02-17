@@ -18,7 +18,7 @@ public class myJPanel extends JPanel implements ActionListener {
     
     Card card;
     boolean correct;
-    
+    int t = 0;
     Timer time;
     JButton start;
     JLabel welcome;
@@ -54,6 +54,8 @@ public class myJPanel extends JPanel implements ActionListener {
         Object obj = e.getSource();
         if (obj == start){
             add(card);
+            t++;
+            
         }
     }
 }
