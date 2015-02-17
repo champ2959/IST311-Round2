@@ -34,11 +34,19 @@ public class Card extends JButton {
     // The number of cards
     public int cardCount = 8;
     
+    // Set the sprite image coordinates
+    public int xLoc = 0;
+    public int yLoc = 0;
+    public int faceDownX = 596;
+    public int faceDownY = 566;
+    
     public Card(int val, int theSuit) {
         
         value = val;
         
-        suit = theSuit;       
+        suit = theSuit;     
+        
+        setSpriteLocation();
         
     }
     
@@ -112,5 +120,53 @@ public class Card extends JButton {
         return str;
         
      }
+     
+     public void setSpriteLocation() {
     
+         switch (suit) {
+            
+            case SPADES: yLoc = 0;
+                break;
+            case HEARTS: yLoc = 139;
+                break;
+            case DIAMONDS: yLoc = 278;
+                break;
+            case CLUBS: yLoc = 418;
+                break;
+            default:
+                yLoc = 566;
+        }
+         
+        switch ( value ) {
+           case 1:   xLoc = 1160;
+               break;
+           case 2:   xLoc = 32;
+               break;
+           case 3:   xLoc = 126;
+               break;
+           case 4:   xLoc = 220;
+               break;
+           case 5:   xLoc = 314;
+               break;
+           case 6:   xLoc = 408;
+               break;
+           case 7:   xLoc = 502;
+               break;
+           case 8:   xLoc = 596;
+               break;
+           case 9:   xLoc = 690;
+               break;
+           case 10:  xLoc = 784;
+               break;
+           case 11:  xLoc = 878;
+               break;
+           case 12:  xLoc = 972;
+               break;
+           case 13:  xLoc = 1066;
+               break;
+           default:  xLoc =  596;
+        }
+         
+     }
+        
 }

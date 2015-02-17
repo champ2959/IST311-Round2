@@ -6,14 +6,15 @@
 package Game;
 
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.*;
 /**
  *
  * @author nyz5034
  */
-public class myJFrame extends JFrame{
+public class myJFrame extends JFrame {
     
-    public myJFrame(){
+    public myJFrame() throws IOException{
         super("Game");
         getContentPane().setLayout(new BorderLayout());
       
@@ -24,6 +25,8 @@ public class myJFrame extends JFrame{
 		
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-	setSize (640, 480);
+	setSize (650, 480);
 	setVisible(true);
-}}
+    }
+
+}

@@ -5,7 +5,18 @@
  */
 package Game;
 
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -17,9 +28,25 @@ public class DeckPanel extends JPanel {
     ArrayList deck;
     ArrayList gameCards;
     int round;
-    int pairs = 4;
+    int pairs = 8;
+    private ImageIcon cardImage;
+    BufferedImage img;
+    JButton cardButton;
+    boolean cardFlipped = false;
     
-    public DeckPanel(ArrayList theDeck, int theRound) {
+    public DeckPanel(ArrayList theDeck, int theRound) throws IOException {
+        
+        super();
+        
+        int layoutRows = 2;
+        
+        if (round > 1) {
+        
+            pairs = pairs + (2 * round);
+            layoutRows = ((pairs * 2) / 4);
+        }
+
+        setLayout(new GridLayout(layoutRows, 6, 10, 10));
         
         // The Deck of 52 cards 
         deck = theDeck;
@@ -63,19 +90,62 @@ public class DeckPanel extends JPanel {
         // placed randomly on the game board
         shuffleCards(false);
         
-       // Card c = (Card) gameCards.get(0);
+        // Set the card sprite (clean up messy code later)
+        img = ImageIO.read(getClass().getResource("cards.png"));
         
-       // System.out.println(c.toString());
+        // Add the cards to the deck panel
+        addCards();
+        
     }
     
-    public Card cloneCard(Card c) {
+     public void addCards() throws IOException {
+        
+        for(int i = 0; i < gameCards.size(); i++) {
+            
+            if (i == 0 || (i + 1) % pairs == 1) {
+                
+                this.add(new JLabel(""));
+                
+            }
+            Card c = (Card) gameCards.get(i);
+           
+            cardButton = new JButton();
+            
+            // Change to false, I set it to true to see the images
+            if (cardFlipped == true) {
+                
+                cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
+                
+            }
+            else {  
+ 
+                cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
+            
+            }
+            
+            cardButton.setIcon(cardImage);
+            cardButton.setOpaque(false);
+            cardButton.setContentAreaFilled(false);
+            cardButton.setBorderPainted(false);
+            
+           
+            this.add(cardButton);
+            
+            if ((i + 1) % pairs == 0) {
+                this.add(new JLabel(""));
+            }
+        }
+        
+    }
+    
+    public final Card cloneCard(Card c) {
         
         Card clone = new Card(c.value, c.suit);
 
         return clone;
     }
     
-    public void shuffleCards(boolean wholeDeck) {
+    public final void shuffleCards(boolean wholeDeck) {
                
         if (wholeDeck == false) {
 
@@ -85,8 +155,8 @@ public class DeckPanel extends JPanel {
             
                 Card temp = (Card) gameCards.get(i);
             
-                gameCards.set(i, deck.get(rand));
-            
+                gameCards.set(i, gameCards.get(rand));
+                      
                 gameCards.set(rand, temp);
                 
             }
@@ -106,7 +176,6 @@ public class DeckPanel extends JPanel {
             }
         
         }
-        
         
     }
     

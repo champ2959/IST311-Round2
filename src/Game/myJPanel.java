@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javax.swing.*;
 import java.util.ArrayList;
 /**
@@ -22,12 +23,12 @@ public class myJPanel extends JPanel implements ActionListener {
     boolean correct;
     int t = 0;
     Timer time;
-    JButton start;
+    JButton start, jb, cardButton;
     JLabel welcome;
     int delay = 100;
     
-    public myJPanel( )//( Card c1)
-    {
+    public myJPanel() throws IOException {
+        super();
         setBackground(new Color(255, 0, 83));
         
         setLayout(null);
@@ -51,7 +52,16 @@ public class myJPanel extends JPanel implements ActionListener {
         
         start = new JButton("Start");
         start.setBounds(250, 170, 130, 40);   start.setFont(f2);
+        start.setSize(130, 40);
+        start.addActionListener(this);
+       
+        add(welcome);
         add(start);
+        
+        deckPanel.setBounds(0, 0, 640, 440);
+        
+        
+       // add(deckPanel);
     }
 
     public void createCards() {
@@ -75,13 +85,26 @@ public class myJPanel extends JPanel implements ActionListener {
         }
         
     }
+    
     public void actionPerformed(ActionEvent e) {
     //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Object obj = e.getSource();
         if (obj == start){
-            add(card);
+            
+            // if we started the game remove the start/welcome
+            remove(start);
+            remove(welcome);
+            
+            setLayout(new BorderLayout());
+            // add the deckPanel (game)
+            add(deckPanel, BorderLayout.CENTER);
+            // validate so the Panel checks what to add/remove
+            validate();
+            // repaint the screen
+            repaint();
             t++;
             
         }
+            
     }
 }
