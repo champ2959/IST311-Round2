@@ -18,6 +18,7 @@ public class myJPanel extends JPanel implements ActionListener {
     
     Card card;
     boolean correct;
+    int delay = 0;
     Timer time;
     JButton start;
     JLabel welcome; 
