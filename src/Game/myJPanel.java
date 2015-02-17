@@ -20,9 +20,9 @@ public class myJPanel extends JPanel implements ActionListener {
     boolean correct;
     Timer time;
     JButton start;
-    JLabel welcome; 
+    JLabel welcome;int delay = 100;
     
-    public myJPanel( Card c1)
+    public myJPanel( )//( Card c1)
     {
         setBackground(new Color(255, 0, 83));
         
@@ -34,7 +34,7 @@ public class myJPanel extends JPanel implements ActionListener {
         welcome.setBounds(210, 40, 225, 30);
          
         
-        card = c1;
+       // card = c1;
         correct = false;
         
         card.setBounds(0, 60, 640, 330);
