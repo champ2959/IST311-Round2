@@ -5,15 +5,16 @@
  */
 package Game;
 
+import java.io.IOException;
 /**
  *
- * @author emg5478, nahom
+ * @author Erik Galloway, Mark, Nahom
  */
 public class App {
     
    static myJFrame game; 
   
-   public static void main(String args[]){
+   public static void main(String args[]) throws IOException{
        
        game = new myJFrame();
        

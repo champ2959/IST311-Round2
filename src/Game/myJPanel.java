@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 /**
  *
- * @author nyz5034
+ * @author Erik Galloway, Mark, Nahom
  */
 public class myJPanel extends JPanel implements ActionListener {
     ArrayList<Card> deck;

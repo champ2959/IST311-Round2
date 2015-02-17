@@ -5,14 +5,10 @@
  */
 package Game;
 
-import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,14 +17,14 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author emg5478
+ * @author Erik Galloway, Nahom, Mark
  */
 public class DeckPanel extends JPanel {
     
     ArrayList deck;
     ArrayList gameCards;
     int round;
-    int pairs = 8;
+    int pairs = 4;
     private ImageIcon cardImage;
     BufferedImage img;
     JButton cardButton;

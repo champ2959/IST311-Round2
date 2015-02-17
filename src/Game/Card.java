@@ -10,7 +10,7 @@ import javax.swing.JButton;
 
 /**
  *
- * @author nyz5034
+ * @author Erik Galloway
  */
 public class Card extends JButton {
     
