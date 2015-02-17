@@ -10,12 +10,13 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import java.util.ArrayList;
 /**
  *
  * @author nyz5034
  */
 public class myJPanel extends JPanel implements ActionListener {
-    
+    ArrayList<Card> deck;
     Card card;
     boolean correct;
     int t = 0;
@@ -48,7 +49,27 @@ public class myJPanel extends JPanel implements ActionListener {
         add(start);
     }
 
-   
+    public void createCards() {
+        
+        deck = new ArrayList<>();
+        
+        // The number of cards created
+        int cards = 0;      
+        
+        for (int suits = 0; suits <= 3; suits++) {
+            
+            for (int value = 1; cards <= 13; value++) {
+                
+                card = new Card(value, suits);
+                
+                deck.add(cards, card);
+                
+                cards++;
+            }
+            
+        }
+        
+    }
     public void actionPerformed(ActionEvent e) {
     //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Object obj = e.getSource();
