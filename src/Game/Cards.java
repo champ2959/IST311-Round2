@@ -5,10 +5,12 @@
  */
 package Game;
 
+import javax.swing.JPanel;
+
 /**
  *
- * @author emg5478, nahom
+ * @author nyz5034
  */
-public class App {
+public class Cards extends JPanel{
     
 }
