@@ -11,6 +11,10 @@ import javax.swing.JPanel;
  *
  * @author nyz5034
  */
-public class Cards extends JPanel{
+public class Card extends JPanel{
     
+    public myJPanel()
+    {
+        
+    }
 }

@@ -5,21 +5,53 @@
  */
 package Game;
 
+import java.awt.event.ActionListener;
 import javax.swing.JPanel;
-
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
 /**
  *
  * @author nyz5034
  */
-public class myJPanel extends JPanel{
+public class myJPanel extends JPanel implements ActionListener {
     
-    Cards c1;
+    Card card;
+    boolean correct;
+    Timer time;
+    JButton start;
+    JLabel welcome; 
     
-    public myJPanel()
+    public myJPanel( Card c1)
     {
+        setBackground(new Color(255, 0, 83));
+        
         setLayout(null);
+        Font f1 = new Font("Arial", Font.PLAIN,28); 
+        Font f2 = new Font("Arial", Font.PLAIN,12);
+        welcome = new JLabel(" Card Game ");
+        welcome.setFont(f1);
+        welcome.setBounds(210, 40, 225, 30);
+         
         
-        c1 = new Cards();
+        card = c1;
+        correct = false;
         
-}
+        card.setBounds(0, 60, 640, 330);
+        
+        time = new Timer(delay, this);
+        
+        start = new JButton("Start");
+        start.setBounds(250, 170, 130, 40);   start.setFont(f2);
+        add(start);
+    }
+
+   
+    public void actionPerformed(ActionEvent e) {
+    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object obj = e.getSource();
+        if (obj == start){
+            add(card);
+        }
+    }
 }

@@ -12,11 +12,13 @@ import javax.swing.*;
  * @author nyz5034
  */
 public class myJFrame extends JFrame{
-     
+    
     public myJFrame(){
         super("Game");
         getContentPane().setLayout(new BorderLayout());
-       myJPanel p1 = new myJPanel();
+      
+        myJPanel p1 = new myJPanel();
+    
     
     	getContentPane().add(p1,"Center");
 		
