@@ -26,9 +26,9 @@ public class Card extends JButton {
     public final static int KING = 13;
     
     // The suit of the card
-    private int suit;
+    public int suit;
     // The card value
-    private int value;
+    public int value;
     // The deck
     public List deck;
     
