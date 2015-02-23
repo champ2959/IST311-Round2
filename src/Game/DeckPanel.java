@@ -6,6 +6,8 @@
 package Game;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,12 +21,12 @@ import javax.swing.JPanel;
  *
  * @author Erik Galloway, Nahom, Mark
  */
-public class DeckPanel extends JPanel {
+public class DeckPanel extends JPanel implements ActionListener{
     
     ArrayList deck;
     ArrayList gameCards;
     int round;
-    int pairs = 4;
+    int pairs = 2;
     private ImageIcon cardImage;
     BufferedImage img;
     JButton cardButton;
@@ -92,7 +94,7 @@ public class DeckPanel extends JPanel {
         // Add the cards to the deck panel
         addCards();
         
-    }
+    }  // end constructor
     
      public void addCards() throws IOException {
         
@@ -108,7 +110,7 @@ public class DeckPanel extends JPanel {
             cardButton = new JButton();
             
             // Change to false, I set it to true to see the images
-            if (cardFlipped == true) {
+            if (cardFlipped == false) {
                 
                 cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
                 
@@ -123,7 +125,7 @@ public class DeckPanel extends JPanel {
             cardButton.setOpaque(false);
             cardButton.setContentAreaFilled(false);
             cardButton.setBorderPainted(false);
-            
+            cardButton.addActionListener(this);
            
             this.add(cardButton);
             
@@ -132,7 +134,7 @@ public class DeckPanel extends JPanel {
             }
         }
         
-    }
+    }  // end addCards()
     
     public final Card cloneCard(Card c) {
         
@@ -173,6 +175,43 @@ public class DeckPanel extends JPanel {
         
         }
         
+    }  // end shuffle cards
+
+    
+    public void showCards(){
+        // trying to move this into global scope for the deck
+        for(int i = 0; i < gameCards.size(); i++){
+        Card c = (Card) gameCards.get(i);
+            if (cardFlipped == false) {
+                
+                cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
+                
+            }
+            else {  
+ 
+                cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
+            
+            }
+        }    
+        
     }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    Object obj = e.getSource();
+    
+    for(int i = 0; i < gameCards.size(); i++){
+        if (obj == gameCards.get(i)){
+          if(!cardFlipped){
+            cardFlipped = true; 
+            showCards();
+          }else{
+             cardFlipped = false; 
+             showCards();
+          }  
+            
+        }
+    }
+    }  // end action listener
     
 }
