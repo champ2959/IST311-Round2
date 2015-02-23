@@ -40,6 +40,8 @@ public class Card extends JButton {
     public int faceDownX = 596;
     public int faceDownY = 566;
     
+    public boolean isFaceUp = false;
+    
     public Card(int val, int theSuit) {
         
         value = val;
