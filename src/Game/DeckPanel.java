@@ -25,6 +25,7 @@ public class DeckPanel extends JPanel implements ActionListener{
     
     ArrayList deck;
     ArrayList gameCards;
+//  ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
     int round;
     int pairs = 2;
     private ImageIcon cardImage;
@@ -200,9 +201,9 @@ public class DeckPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
     
-    for(int i = 0; i < gameCards.size(); i++){
-        if (obj == gameCards.get(i)){
-          if(!cardFlipped){
+    for(int i = 0; i < gameCards.size(); i++){  // I think we need to cycle through each card to get the identity of each card, otherwise a switch statement based on the card value, tricky because we have ints for suit and face value
+       /* if (obj == gameCards.get(i)){
+          if(gameCards.get(i).isFaceUp){
             cardFlipped = true; 
             showCards();
           }else{
@@ -211,7 +212,9 @@ public class DeckPanel extends JPanel implements ActionListener{
           }  
             
         }
+               */
     }
+               
     }  // end action listener
     
 }
