@@ -27,7 +27,7 @@ public class myJPanel extends JPanel implements ActionListener {
     JLabel welcome;
     int delay = 100;
     
-    public myJPanel() throws IOException {
+    public myJPanel() throws IOException {  // why do we need to throw an IOException?
         super();
         setBackground(new Color(255, 0, 83));
         
@@ -66,7 +66,7 @@ public class myJPanel extends JPanel implements ActionListener {
 
     public void createCards() {
         
-        deck = new ArrayList<>();
+        deck = new ArrayList();//deck = new ArrayList<>();  changed this, just needed to remove angle brackets
         
         // The number of cards created
         int cardCount = 0;      

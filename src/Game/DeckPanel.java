@@ -51,7 +51,7 @@ public class DeckPanel extends JPanel {
         round = theRound;
         
         // The cards we'll use for this round
-        gameCards = new ArrayList<>();
+        gameCards = new ArrayList();
         
         // Shuffe the whole deck of cards
         shuffleCards(true);
