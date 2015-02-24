@@ -14,11 +14,13 @@ import javax.swing.*;
  */
 public class myJFrame extends JFrame {
     
+    myJPanel p1;
+    
     public myJFrame() throws IOException{
         super("Game");
         getContentPane().setLayout(new BorderLayout());
       
-        myJPanel p1 = new myJPanel();
+        p1 = new myJPanel();
     
     
     	getContentPane().add(p1,"Center");

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
  */
 public class ScorePanel extends JPanel{
     
+   
     int clickCount = 0;
     int timeCount = 0;
     JLabel clicksLabel = new JLabel("Clicks: " + clickCount);

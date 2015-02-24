@@ -8,6 +8,8 @@ package Game;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -22,7 +24,7 @@ import javax.swing.Timer;
  *
  * @author Erik Galloway, Nahom, Mark
  */
-public class DeckPanel extends JPanel implements ActionListener {
+public class DeckPanel extends JPanel implements ActionListener, MouseListener {
     
     ArrayList deck;
     ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
@@ -110,6 +112,7 @@ public class DeckPanel extends JPanel implements ActionListener {
         
         // Add the cards to the deck panel
         addCards();
+        addMouseListener(this);
         
     }  // end constructor
     
@@ -273,7 +276,10 @@ public class DeckPanel extends JPanel implements ActionListener {
         Object obj = e.getSource();
         
         if (obj == time) {
-
+            // i'm using this to update the time, we probably should be using t, or remove the t from this panel, and just use the timer count on the score panel
+            Game.App.game.p1.scorePanel.timeCount++;
+         Game.App.game.p1.scorePanel.timeLabel.setText("Time: " + Game.App.game.p1.scorePanel.timeCount);
+         
             t++;
         
         }      
@@ -320,5 +326,36 @@ public class DeckPanel extends JPanel implements ActionListener {
         repaint();
                            
     }  // end action listener
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+       // Game.App.game.p1.scorePanel.clickCount++;
+        // Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);
+         //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+         Game.App.game.p1.scorePanel.clickCount++;
+         Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);
+         
+        // throw new UnsupportedOperationException("Not supported yet.");//To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+         throw new UnsupportedOperationException("Not supported yet.");//To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
