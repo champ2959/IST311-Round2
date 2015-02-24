@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ public class DeckPanel extends JPanel implements ActionListener{
     BufferedImage img;
     JButton cardButton;
     boolean cardFlipped = false;
+    String firstCard;
     
     public DeckPanel(ArrayList theDeck, int theRound) throws IOException {
         
@@ -82,6 +85,7 @@ public class DeckPanel extends JPanel implements ActionListener{
             int cloneIndex = (pairs + i);
             
             Card cardToClone = (Card) gameCards.get(i);
+            cardToClone.isClone = true;
             
             gameCards.add(cloneIndex, cloneCard(cardToClone));
         }
@@ -113,7 +117,7 @@ public class DeckPanel extends JPanel implements ActionListener{
             cardButton = new JButton();
             
             // Change to false, I set it to true to see the images
-            if (c.isFaceUp == true) {
+            if (c.isFaceUp == false) {
                 
                 cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
                 
@@ -129,10 +133,26 @@ public class DeckPanel extends JPanel implements ActionListener{
             cardButton.setContentAreaFilled(false);
             cardButton.setBorderPainted(false);
             cardButton.addActionListener(this);
-            cardButton.setName(c.getCardAsString());
+            
            
-            this.add(cardButton);
+            
+            for (int z = 0; z < gameCards.size(); z++) {
+                
+                if (gameCards.get(z).getValueAsString() == gameCards.get(i).getValueAsString() && i > z) {
+                    
+                    cardButton.setName(c.getCardAsString() + "_c");
+                    break;
+                    
+                }
+                else {
 
+                    cardButton.setName(c.getCardAsString());
+                
+                }
+            }
+            
+            this.add(cardButton);
+            
             if ((i + 1) % pairs == 0) {
                 this.add(new JLabel(""));
             }
@@ -185,14 +205,16 @@ public class DeckPanel extends JPanel implements ActionListener{
     public void showCards(){
         // trying to move this into global scope for the deck
         for(int i = 0; i < gameCards.size(); i++){
-        Card c = (Card) gameCards.get(i);
+            
+            Card c = (Card) gameCards.get(i);
+            
             if (c.isFaceUp == false) {
                 
                 cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
                 
             }
             else {  
- 
+
                 cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
             
             }
@@ -200,17 +222,84 @@ public class DeckPanel extends JPanel implements ActionListener{
         
     }
     
+    public ImageIcon compareCards(String value, JButton btn) {
+        
+        if (cardFlipped == false) {
+            
+            firstCard = value;
+            
+            cardFlipped = true;
+            
+            for (int i = 0; i < gameCards.size(); i++) {
+                
+                Card c = (Card) gameCards.get(i);
+                
+                if (c.getValueAsString().equals(firstCard)) {
+                    
+                    cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
+
+                    
+                    
+                    
+                }
+                
+            }
+            
+        
+    }
+        return cardImage;
+        
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-    JButton obj = (JButton) e.getSource();
-   
-    System.out.println(obj.getName());
+        JButton btn = (JButton) e.getSource();
+        Object obj = e.getSource();
     
-    for(int i = 0; i < gameCards.size(); i++){  
-    
-        if (obj.getName().equals(gameCards.get(i).getCardAsString())){
-          
+        boolean flipped = false;
+       
+        boolean cloneCheck = btn.getName().endsWith("_c");
+        
+      
+       
+        for(int i = 0; i < gameCards.size(); i++){  
+        
+            String cardName = gameCards.get(i).getCardAsString();
             
+            if (cloneCheck == true && gameCards.get(i).isClone == true) {
+                
+                cardName = cardName + "_c";
+                
+            }
+
+        
+        if (btn.getName().equals(cardName) && flipped == false){
+           
+                System.out.println(cardName);
+                flipped = true;
+                
+                cardImage = compareCards(gameCards.get(i).getCardAsString(), btn);
+           
+                Card g = gameCards.get(i);
+            
+                g.isFaceUp = true;
+            
+                gameCards.set(i, g);
+                
+
+
+            
+            
+            this.removeAll();
+           
+            try {
+                this.addCards();
+            } catch (IOException ex) {
+                Logger.getLogger(DeckPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           // showCards();
+            validate();
+            repaint();
             
         }
 

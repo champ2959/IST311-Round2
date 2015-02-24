@@ -42,6 +42,8 @@ public class Card extends JButton {
     
     public boolean isFaceUp = false;
     
+    public boolean isClone = false;
+    
     public Card(int val, int theSuit) {
         
         value = val;
@@ -51,6 +53,7 @@ public class Card extends JButton {
         setSpriteLocation();
         
     }
+    
     
     public String getCardAsString() {
         
