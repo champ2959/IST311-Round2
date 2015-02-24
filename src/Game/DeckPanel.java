@@ -8,53 +8,69 @@ package Game;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
  * @author Erik Galloway, Nahom, Mark
  */
-public class DeckPanel extends JPanel implements ActionListener{
+public class DeckPanel extends JPanel implements ActionListener {
     
     ArrayList deck;
-//    ArrayList gameCards;
     ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
     int round;
     int pairs = 2;
     private ImageIcon cardImage;
-    BufferedImage img;
-    JButton cardButton;
     boolean cardFlipped = false;
-    String firstCard;
+    boolean nextRound = false;
     
-    public DeckPanel(ArrayList theDeck, int theRound) throws IOException {
+    int correctCards = 0;
+    
+    Card firstCard;
+    Card secondCard;
+    
+    Timer time;
+    int cardReset = 0;
+    int t = 0;
+    
+    public DeckPanel(ArrayList theDeck, int theRound, Timer t) throws IOException {
         
         super();
         
         int layoutRows = 2;
+        int cols = 4;
         
-        if (round > 1) {
-        
-            pairs = pairs + (2 * round);
-            layoutRows = ((pairs * 2) / 4);
-        }
-
-        setLayout(new GridLayout(layoutRows, 6, 10, 10));
+        // The game round were in
+        round = theRound;
         
         // The Deck of 52 cards 
         deck = theDeck;
         
-        // The game round were in
-        round = theRound;
+         if (round > 1) {
+             
+            pairs = pairs + 4;
+            
+            if (round == 2)  {
+                pairs = 4;
+            }
+            layoutRows = ((pairs * 2) / 4);
+            cols = 6;
+        }
+        
+
+        setLayout(new GridLayout(layoutRows, cols, 2, 10));
+                
+        time = t;
+        
+        time.addActionListener(this);
         
         // The cards we'll use for this round
         gameCards = new ArrayList();
@@ -65,11 +81,7 @@ public class DeckPanel extends JPanel implements ActionListener{
         // If were past the first round we will increase
         // the number of pairs we have by 2 (add 4 cards)
         // to the gameCards array (deck)
-        if (round > 1) {
         
-            pairs = pairs + (2 * round);
-            
-        }
         
         // Add the card to our gameCard list        
         for (int i = 0; i < pairs; i++) {
@@ -85,17 +97,16 @@ public class DeckPanel extends JPanel implements ActionListener{
             int cloneIndex = (pairs + i);
             
             Card cardToClone = (Card) gameCards.get(i);
-            cardToClone.isClone = true;
-            
+                
             gameCards.add(cloneIndex, cloneCard(cardToClone));
+            
         }
         
         // Shuffle the game cards to be
         // placed randomly on the game board
         shuffleCards(false);
         
-        // Set the card sprite (clean up messy code later)
-        img = ImageIO.read(getClass().getResource("cards.png"));
+       
         
         // Add the cards to the deck panel
         addCards();
@@ -106,63 +117,43 @@ public class DeckPanel extends JPanel implements ActionListener{
         
         for(int i = 0; i < gameCards.size(); i++) {
             
-            if (i == 0 || (i + 1) % pairs == 1) {
+            if (round > 1 && ((i % 4 == 0) || (i == 0))) {
                 
                 this.add(new JLabel(""));
                 
             }
             
-            Card c = (Card) gameCards.get(i);
-           
-            cardButton = new JButton();
-            
-            // Change to false, I set it to true to see the images
-            if (c.isFaceUp == false) {
+            else if (round == 1 && (i == 0 || i == 2)) {
                 
-                cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
-                
-            }
-            else {  
- 
-                cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
-            
-            }
-
-            cardButton.setIcon(cardImage);
-            cardButton.setOpaque(false);
-            cardButton.setContentAreaFilled(false);
-            cardButton.setBorderPainted(false);
-            cardButton.addActionListener(this);
-            
-           
-            
-            for (int z = 0; z < gameCards.size(); z++) {
-                
-                if (gameCards.get(z).getValueAsString() == gameCards.get(i).getValueAsString() && i > z) {
-                    
-                    cardButton.setName(c.getCardAsString() + "_c");
-                    break;
-                    
-                }
-                else {
-
-                    cardButton.setName(c.getCardAsString());
-                
-                }
-            }
-            
-            this.add(cardButton);
-            
-            if ((i + 1) % pairs == 0) {
                 this.add(new JLabel(""));
+               
+                
             }
+            
+                      
+            gameCards.get(i).addActionListener(this);
+          
+            this.add(gameCards.get(i));
+            
+            if (round == 1 && (i == 1 || i == 3) ) {
+                
+                this.add(new JLabel(""));
+                
+                
+            }
+            else if (round > 1 && ((i + 1) % 4 == 0)) {
+
+                this.add(new JLabel(""));
+
+            }
+            
         }
         
     }  // end addCards()
     
-    public final Card cloneCard(Card c) {
+    public final Card cloneCard(Card c) throws IOException {
         
-        Card clone = new Card(c.value, c.suit);
+        Card clone = new Card(c.value, c.suit, true);
 
         return clone;
     }
@@ -201,129 +192,133 @@ public class DeckPanel extends JPanel implements ActionListener{
         
     }  // end shuffle cards
 
-    
-    public void showCards(){
-        // trying to move this into global scope for the deck
-        for(int i = 0; i < gameCards.size(); i++){
-            
-            Card c = (Card) gameCards.get(i);
-            
-            if (c.isFaceUp == false) {
-                
-                cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
-                
-            }
-            else {  
-
-                cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
-            
-            }
-        }    
+    public void compareCards(Card btn) {
         
+        for (Card gameCard : gameCards) {
+            
+            /**
+             * If the card clicked == the current card inside of the loop
+             */
+            if (btn.getCardAsString().equals(gameCard.getCardAsString()) && btn.isClone == gameCard.isClone) {
+               
+                // Flip the card clicked
+                gameCard.flipCard(); 
+                
+                /**
+                 * Do we have a car already turned over?
+                 */
+                if (cardFlipped == true && firstCard != null) {
+                    
+                    /**
+                     * Does the second card clicked = our first card turned over?
+                     * If it does set our first card to null and changed the cardFlipped var
+                     */
+                    if (btn.getCardAsString().equals(firstCard.getCardAsString())) {
+                        firstCard.cardDone = true;
+                        gameCard.cardDone = true;
+                        
+                        correctCards = correctCards + 2;
+                        
+                        if (correctCards == gameCards.size()) {
+                            
+                            nextRound = true;
+                            gameCards.clear();
+                            break;
+                            
+                        }
+                        
+                        firstCard = null;
+                        cardFlipped = false;
+                       
+                   }                 
+                   else {
+                                
+                        secondCard = gameCard;
+                        cardFlipped = false;
+                       
+                   }                 
+                }
+                else {
+                    
+                    firstCard = gameCard;
+                    
+                    cardFlipped = true;
+                
+                }
+               
+            }
+               
+            gameCard.removeActionListener(this);
+        }
+        
+        this.removeAll();
+
+        try {
+
+            this.addCards();
+        
+        } 
+        catch (IOException ex) {
+        
+            Logger.getLogger(DeckPanel.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+               
     }
-    
-    public ImageIcon compareCards(String value, JButton btn) {
-        
-        if (cardFlipped == false) {
-            
-            firstCard = value;
-            
-            cardFlipped = true;
-            
-            for (int i = 0; i < gameCards.size(); i++) {
-                
-                Card c = (Card) gameCards.get(i);
-                
-                if (c.getValueAsString().equals(firstCard)) {
-                    
-                    cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
 
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    
+        Object obj = e.getSource();
+        
+        if (obj == time) {
+
+            t++;
+        
+        }      
+        
+        if (obj == time && secondCard != null) {
+            
+            cardReset++; 
+            
+            if (cardReset > 1 && secondCard != null) {
+                
+                time.stop();
+                for (Card gameCard : gameCards) {
                     
-                    
+                    if ((gameCard == firstCard || gameCard == secondCard) && gameCard.isFaceUp && gameCard.cardDone == false) {
+                        
+                        gameCard.flipCard();
+                        
+                        firstCard = (gameCard == firstCard) ? null : firstCard;
+                        
+                        secondCard = (gameCard == secondCard) ? null : secondCard;
+                        
+                    }
                     
                 }
                 
-            }
-            
-        
-    }
-        return cardImage;
-        
-    }  // end compareCards()
-    
-    
-    
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton btn = (JButton) e.getSource();
-        Object obj = e.getSource();
-    
-        ifSomethingGetsClickedDoThis(btn);
-               
-    }  // end action listener
-  
-    
-    
-    
-    
-    
-   public void ifSomethingGetsClickedDoThis(JButton btn){
-       
-        boolean flipped = false;
-       
-        boolean cloneCheck = btn.getName().endsWith("_c");
-        
-      
-       
-        for(int i = 0; i < gameCards.size(); i++){  
-        
-            String cardName = gameCards.get(i).getCardAsString();
-            
-            if (cloneCheck == true && gameCards.get(i).isClone == true) {
+                cardReset = 0;
                 
-                cardName = cardName + "_c";
+                time.start();
                 
             }
-
-        
-        if (btn.getName().equals(cardName) && flipped == false){
-           
-                System.out.println(cardName);
-                flipped = true;
-                
-                cardImage = compareCards(gameCards.get(i).getCardAsString(), btn);
-           
-                Card g = gameCards.get(i);
-            
-                g.isFaceUp = true;
-            
-                gameCards.set(i, g);
-                
-
-
-            
-            
-            this.removeAll();
-           
-            try {
-                this.addCards();
-            } catch (IOException ex) {
-                Logger.getLogger(DeckPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           // showCards();
-            validate();
-            repaint();
             
         }
+        else if(obj != time) {
+    
+            Card btn = (Card) obj;
+            
+            if (btn.cardDone == false && btn.isFaceUp == false) {
 
-               
-    }
+                this.compareCards(btn);
        
-   } 
-    
-    
-    
-    
+            }
+        }
+        validate();
+        repaint();
+                           
+    }  
     
 }

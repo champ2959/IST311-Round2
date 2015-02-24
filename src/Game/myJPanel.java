@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Erik Galloway, Mark, Nahom
@@ -25,7 +27,7 @@ public class myJPanel extends JPanel implements ActionListener {
     Timer time;
     JButton start, jb, cardButton;
     JLabel welcome;
-    int delay = 100;
+    int delay = 400;
     
     public myJPanel() throws IOException {  // why do we need to throw an IOException?
         super();
@@ -39,17 +41,16 @@ public class myJPanel extends JPanel implements ActionListener {
         welcome.setBounds(210, 40, 225, 30);
         
         this.createCards();
+ 
         
-        
-        deckPanel = new DeckPanel(deck, 1);
-        
-       // card = c1;
         correct = false;
         
         card.setBounds(0, 60, 640, 330);
         
         time = new Timer(delay, this);
         
+        deckPanel = new DeckPanel(deck, 1, time);
+       
         start = new JButton("Start");
         start.setBounds(250, 170, 130, 40);   start.setFont(f2);
         start.setSize(130, 40);
@@ -64,7 +65,7 @@ public class myJPanel extends JPanel implements ActionListener {
        // add(deckPanel);
     }
 
-    public void createCards() {
+    public void createCards() throws IOException {
         
         deck = new ArrayList();//deck = new ArrayList<>();  changed this, just needed to remove angle brackets
         
@@ -75,7 +76,7 @@ public class myJPanel extends JPanel implements ActionListener {
             
             for (int value = 1; value <= 13; value++) {
                 
-                card = new Card(value, suits);
+                card = new Card(value, suits, false);
                 
                 deck.add(cardCount, card);
                 
@@ -102,9 +103,60 @@ public class myJPanel extends JPanel implements ActionListener {
             validate();
             // repaint the screen
             repaint();
-            t++;
+            
+            time.start();
             
         }
+        
+        if (obj == time) {
+           
+            
+            
+            if (deckPanel.nextRound == true) {
+                
+               int round = deckPanel.round + 1; 
+                System.out.println(round);
+               time.stop();
+                
+                remove(deckPanel);
+                
+                deck.clear();
+            
+                try {
+                    
+                    this.createCards();
+                    
+                } 
+                catch (IOException ex) {
+                
+                    Logger.getLogger(myJPanel.class.getName()).log(Level.SEVERE, null, ex);
+                
+                }
+                
+                    
+                deckPanel = null;
+                try {
+                    deckPanel = new DeckPanel(deck, round, time);
+                } catch (IOException ex) {
+                    Logger.getLogger(myJPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                add(deckPanel, BorderLayout.CENTER);
+                deckPanel.setBounds(0, 0, 640, 440);
+                
+                time.restart();
+                // validate so the Panel checks what to add/remove
+                validate();
+            
+                // repaint the screen
+                repaint();
+                
+                
+            }
+            
+        }
+       
+        
                     
     }
 }

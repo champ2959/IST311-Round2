@@ -6,6 +6,10 @@
 package Game;
 
 import java.awt.List;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -44,16 +48,61 @@ public class Card extends JButton {
     
     public boolean isClone = false;
     
-    public Card(int val, int theSuit) {
+    public boolean cardDone = false;
+    
+    public BufferedImage img;
+
+    public ImageIcon cardImage;
+    
+    public ImageIcon faceDownImg;
+
+    public Card(int val, int theSuit, boolean clone) throws IOException {
+        
+        super();
         
         value = val;
         
-        suit = theSuit;     
+        suit = theSuit;
+        
+        isClone = clone;
         
         setSpriteLocation();
+                    
+         // Set the card sprite (clean up messy code later)
+        img = ImageIO.read(getClass().getResource("cards.png"));
+        
+        faceDownImg = new ImageIcon(img.getSubimage(faceDownX, faceDownY, 87, 134));
+
+        this.createCard();
         
     }
     
+    public void createCard() {
+        
+        this.setIcon(faceDownImg);
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        
+    }
+    
+    public void flipCard() {
+        
+        if (isFaceUp == true) {
+            isFaceUp = false;
+        }
+        else {
+            
+            isFaceUp = true;
+            
+        }
+        
+        cardImage = (isFaceUp == true) ? new ImageIcon(img.getSubimage(xLoc, yLoc, 87, 134)) : faceDownImg;
+             
+        this.setIcon(cardImage);
+    
+        
+    }
     
     public String getCardAsString() {
         
