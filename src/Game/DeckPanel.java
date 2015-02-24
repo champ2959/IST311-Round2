@@ -319,6 +319,6 @@ public class DeckPanel extends JPanel implements ActionListener {
         validate();
         repaint();
                            
-    }  
+    }  // end action listener
     
 }

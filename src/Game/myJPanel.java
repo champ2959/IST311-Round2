@@ -22,6 +22,7 @@ public class myJPanel extends JPanel implements ActionListener {
     ArrayList<Card> deck;
     Card card;
     DeckPanel deckPanel;
+    ScorePanel scorePanel;
     boolean correct;
     int t = 0;
     Timer time;
@@ -50,7 +51,8 @@ public class myJPanel extends JPanel implements ActionListener {
         time = new Timer(delay, this);
         
         deckPanel = new DeckPanel(deck, 1, time);
-       
+        scorePanel = new ScorePanel();
+        
         start = new JButton("Start");
         start.setBounds(250, 170, 130, 40);   start.setFont(f2);
         start.setSize(130, 40);
@@ -63,7 +65,7 @@ public class myJPanel extends JPanel implements ActionListener {
         
         
        // add(deckPanel);
-    }
+    }  // end constructor
 
     public void createCards() throws IOException {
         
@@ -99,6 +101,7 @@ public class myJPanel extends JPanel implements ActionListener {
             setLayout(new BorderLayout());
             // add the deckPanel (game)
             add(deckPanel, BorderLayout.CENTER);
+            add(scorePanel, BorderLayout.SOUTH);
             // validate so the Panel checks what to add/remove
             validate();
             // repaint the screen
