@@ -105,6 +105,6 @@ public class myJPanel extends JPanel implements ActionListener {
             t++;
             
         }
-            
+                    
     }
 }

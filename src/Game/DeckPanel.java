@@ -24,8 +24,8 @@ import javax.swing.JPanel;
 public class DeckPanel extends JPanel implements ActionListener{
     
     ArrayList deck;
-    ArrayList gameCards;
-//  ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
+//    ArrayList gameCards;
+    ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
     int round;
     int pairs = 2;
     private ImageIcon cardImage;
@@ -73,6 +73,7 @@ public class DeckPanel extends JPanel implements ActionListener{
             
             gameCards.add(i, (Card) deck.get(i));
             
+            
         }
         
         // Clone the cards we will need
@@ -106,12 +107,13 @@ public class DeckPanel extends JPanel implements ActionListener{
                 this.add(new JLabel(""));
                 
             }
+            
             Card c = (Card) gameCards.get(i);
            
             cardButton = new JButton();
             
             // Change to false, I set it to true to see the images
-            if (cardFlipped == false) {
+            if (c.isFaceUp == true) {
                 
                 cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
                 
@@ -121,15 +123,16 @@ public class DeckPanel extends JPanel implements ActionListener{
                 cardImage = new ImageIcon(img.getSubimage(c.xLoc, c.yLoc, 87, 134));
             
             }
-            
+
             cardButton.setIcon(cardImage);
             cardButton.setOpaque(false);
             cardButton.setContentAreaFilled(false);
             cardButton.setBorderPainted(false);
             cardButton.addActionListener(this);
+            cardButton.setName(c.getCardAsString());
            
             this.add(cardButton);
-            
+
             if ((i + 1) % pairs == 0) {
                 this.add(new JLabel(""));
             }
@@ -183,7 +186,7 @@ public class DeckPanel extends JPanel implements ActionListener{
         // trying to move this into global scope for the deck
         for(int i = 0; i < gameCards.size(); i++){
         Card c = (Card) gameCards.get(i);
-            if (cardFlipped == false) {
+            if (c.isFaceUp == false) {
                 
                 cardImage = new ImageIcon(img.getSubimage(c.faceDownX, c.faceDownY, 87, 134));
                 
@@ -199,20 +202,19 @@ public class DeckPanel extends JPanel implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-    Object obj = e.getSource();
+    JButton obj = (JButton) e.getSource();
+   
+    System.out.println(obj.getName());
     
-    for(int i = 0; i < gameCards.size(); i++){  // I think we need to cycle through each card to get the identity of each card, otherwise a switch statement based on the card value, tricky because we have ints for suit and face value
-       /* if (obj == gameCards.get(i)){
-          if(gameCards.get(i).isFaceUp){
-            cardFlipped = true; 
-            showCards();
-          }else{
-             cardFlipped = false; 
-             showCards();
-          }  
+    for(int i = 0; i < gameCards.size(); i++){  
+    
+        if (obj.getName().equals(gameCards.get(i).getCardAsString())){
+          
+            
             
         }
-               */
+
+               
     }
                
     }  // end action listener
