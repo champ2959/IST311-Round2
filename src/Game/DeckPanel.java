@@ -112,6 +112,8 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
         
         // Add the cards to the deck panel
         addCards();
+        
+        // add the mose listener to count the clicks - this isn't working yet
         addMouseListener(this);
         
     }  // end constructor
