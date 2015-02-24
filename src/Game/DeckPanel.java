@@ -249,13 +249,27 @@ public class DeckPanel extends JPanel implements ActionListener{
     }
         return cardImage;
         
-    }
+    }  // end compareCards()
+    
+    
+    
     
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
         Object obj = e.getSource();
     
+        ifSomethingGetsClickedDoThis(btn);
+               
+    }  // end action listener
+  
+    
+    
+    
+    
+    
+   public void ifSomethingGetsClickedDoThis(JButton btn){
+       
         boolean flipped = false;
        
         boolean cloneCheck = btn.getName().endsWith("_c");
@@ -305,7 +319,11 @@ public class DeckPanel extends JPanel implements ActionListener{
 
                
     }
-               
-    }  // end action listener
+       
+   } 
+    
+    
+    
+    
     
 }
