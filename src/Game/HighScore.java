@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -21,7 +23,8 @@ import java.util.ArrayList;
 public class HighScore extends JPanel {
      
     ArrayList<Score> scores;
-    private static final String SCORE_FILE = "Scores.dat";
+    ArrayList<Score> sortedScores;
+    private static final String SCORE_FILE = "src/Game/scores.dat";
     
     ObjectOutputStream outputStream;
     ObjectInputStream inputStream;
@@ -49,9 +52,29 @@ public class HighScore extends JPanel {
     }
     
     private void sort() {
-     
+        
+       
+        
+        
     
-}
+    }
+    
+    public int compare(Score score1, Score score2) {
+
+        int sc1 = score1.getScore();
+        int sc2 = score2.getScore();
+
+        if (sc1 > sc2){
+            return -1;
+        }
+        else if (sc1 < sc2){
+            return +1;
+        }
+        else{
+            return 0;
+        }
+    }
+    
     public void loadScoreFile(){
         try{
             inputStream = new ObjectInputStream(new FileInputStream(SCORE_FILE));
@@ -59,13 +82,16 @@ public class HighScore extends JPanel {
             
         }
         catch(FileNotFoundException e){
-            System.out.println(" ");
+            System.out.println(e.getMessage());
+            System.out.println("63");
         }
         catch(IOException e){
-            System.out.println("_");
+            System.out.println(e.getMessage());
+            System.out.println("66");
         }
         catch(ClassNotFoundException e){
-            System.out.println("..");
+            System.out.println(e.getMessage());
+            System.out.println("69");
         }
         finally {
             try{
@@ -94,10 +120,10 @@ public class HighScore extends JPanel {
             outputStream.writeObject(scores);            
         }
         catch(FileNotFoundException e){
-            System.out.println(" ");
+            System.out.println(e.getMessage());
         }
         catch(IOException e){
-            System.out.println("_");
+            System.out.println(e.getMessage());
         }
         finally {
             try{
@@ -106,7 +132,7 @@ public class HighScore extends JPanel {
                         outputStream.close();
                     }
         } catch (IOException e){
-                System.out.println(",");
+                System.out.println(e.getMessage());
                     }
         }
     }

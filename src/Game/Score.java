@@ -5,11 +5,13 @@
  */
 package Game;
 
+import java.io.Serializable;
+
 /**
  *
  * @author nyz5034
  */
-public class Score {
+public class Score implements Serializable{
     String name; 
     int score;
     
