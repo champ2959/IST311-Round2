@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,7 +29,7 @@ public class HighScore extends JPanel {
     String name;
     int score;
     
-     public HighScore( String theName, int theScore){
+     public HighScore(String theName, int theScore){
             
             super();
             setBackground(new Color(255, 0, 83));
@@ -36,6 +37,8 @@ public class HighScore extends JPanel {
             scores = new ArrayList<Score>();
             name = theName;
             score = theScore;
+            
+            addScore();
             
      }
      
@@ -86,8 +89,50 @@ public class HighScore extends JPanel {
     }
     
     public void updateScoreFile(){
-        
+         try{
+            outputStream = new ObjectOutputStream(new FileOutputStream(SCORE_FILE));
+            outputStream.writeObject(scores);            
+        }
+        catch(FileNotFoundException e){
+            System.out.println(" ");
+        }
+        catch(IOException e){
+            System.out.println("_");
+        }
+        finally {
+            try{
+                    if (outputStream != null){
+                        outputStream.flush();
+                        outputStream.close();
+                    }
+        } catch (IOException e){
+                System.out.println(",");
+                    }
+        }
     }
+    
+    public String getHighScoreString(){
+        
+        String highScoreString = " ";
+        int max = 10;
+        
+        
+        scores = getScores();
+        
+        int i = 0;
+        int x = scores.size();
+        if(x > max){
+            x = max;
+        }
+         while (i < x) {
+             highScoreString += (i + 1) + ".\t" + scores.get(i).getName() + 
+                     ".\t\t" + scores.get(i).getScore() + "\n";
+             i++;
+                    
+        }
+       return highScoreString;
+    }
+    
 }
 
 

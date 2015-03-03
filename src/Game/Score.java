@@ -15,8 +15,20 @@ public class Score {
     
     public Score(String theName, int theScore){
             
-    name = theName;
-    score = theScore;
+        name = theName;
+        score = theScore;
     
-}
+    }
+    
+    public String getName() {
+        
+        return name;
+        
+    }
+    
+    public int getScore() {
+    
+        return score;
+        
+    }
 }
