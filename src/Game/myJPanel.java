@@ -27,7 +27,9 @@ public class myJPanel extends JPanel implements ActionListener {
     int t = 0;
     Timer time;
     JButton start, jb, cardButton;
-    JLabel welcome;
+    JLabel welcome, nameLabel;
+    JTextField nameInput;
+    String userName;
     int delay = 400;
     
     public myJPanel() throws IOException {  // why do we need to throw an IOException?
@@ -53,12 +55,22 @@ public class myJPanel extends JPanel implements ActionListener {
         deckPanel = new DeckPanel(deck, 1, time);
         scorePanel = new ScorePanel();
         
+        nameLabel = new JLabel("Your Name: ");
+        nameLabel.setBounds(180, 140, 80, 30);
+        nameLabel.setForeground(Color.white);
+        
+        nameInput = new JTextField("");
+        nameInput.setColumns(50);
+        nameInput.setBounds(250, 140, 130, 30);
+        
         start = new JButton("Start");
-        start.setBounds(250, 170, 130, 40);   start.setFont(f2);
+        start.setBounds(250, 180, 130, 40);   start.setFont(f2);
         start.setSize(130, 40);
         start.addActionListener(this);
        
         add(welcome);
+        add(nameLabel);
+        add(nameInput);
         add(start);
         
         deckPanel.setBounds(0, 0, 640, 440);
@@ -94,9 +106,16 @@ public class myJPanel extends JPanel implements ActionListener {
         Object obj = e.getSource();
         if (obj == start){
             
+            
             // if we started the game remove the start/welcome
             remove(start);
+            remove(nameInput);
+            remove(nameLabel);
             remove(welcome);
+            
+            userName = nameInput.getText();
+            
+            System.out.println(userName);
             
             setLayout(new BorderLayout());
             // add the deckPanel (game)
@@ -118,7 +137,7 @@ public class myJPanel extends JPanel implements ActionListener {
             if (deckPanel.nextRound == true) {
                 
                int round = deckPanel.round + 1; 
-                System.out.println(round);
+               
                time.stop();
                 
                 remove(deckPanel);
