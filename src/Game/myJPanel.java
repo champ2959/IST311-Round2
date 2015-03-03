@@ -106,16 +106,20 @@ public class myJPanel extends JPanel implements ActionListener {
         Object obj = e.getSource();
         if (obj == start){
             
+            userName = nameInput.getText();
             
+            if (userName.length() == 0 || userName.equals("You forgot your Name")) {
+                
+                nameInput.setText("You forgot your Name");
+                return;
+            }
             // if we started the game remove the start/welcome
             remove(start);
             remove(nameInput);
             remove(nameLabel);
             remove(welcome);
-            
-            userName = nameInput.getText();
-            
-            System.out.println(userName);
+                       
+          
             
             setLayout(new BorderLayout());
             // add the deckPanel (game)
@@ -157,6 +161,7 @@ public class myJPanel extends JPanel implements ActionListener {
                 
                     
                 deckPanel = null;
+                
                 try {
                     deckPanel = new DeckPanel(deck, round, time);
                 } catch (IOException ex) {
@@ -164,8 +169,8 @@ public class myJPanel extends JPanel implements ActionListener {
                 }
                 
                 add(deckPanel, BorderLayout.CENTER);
-                deckPanel.setBounds(0, 0, 640, 440);
                 
+                deckPanel.setBounds(0, 0, 640, 440);
                 time.restart();
                 // validate so the Panel checks what to add/remove
                 validate();

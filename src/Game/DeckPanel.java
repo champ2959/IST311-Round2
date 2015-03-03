@@ -226,6 +226,7 @@ public class DeckPanel extends JPanel implements ActionListener {
                         if (correctCards == gameCards.size()) {
                             
                             nextRound = true;
+                            time.removeActionListener(this);
                             gameCards.clear();
                             break;
                             
