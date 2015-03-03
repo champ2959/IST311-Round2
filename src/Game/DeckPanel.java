@@ -28,7 +28,7 @@ public class DeckPanel extends JPanel implements ActionListener {
     
     ArrayList deck;
     ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
-    int round;
+    int round = 1;
     int pairs = 2;
     private ImageIcon cardImage;
     boolean cardFlipped = false;
@@ -42,6 +42,12 @@ public class DeckPanel extends JPanel implements ActionListener {
     Timer time;
     int cardReset = 0;
     int t = 0;
+    
+   
+    
+    
+    
+    
     
     public DeckPanel(ArrayList theDeck, int theRound, Timer t) throws IOException {
         
@@ -219,8 +225,8 @@ public class DeckPanel extends JPanel implements ActionListener {
                     if (btn.getCardAsString().equals(firstCard.getCardAsString())) {
                         firstCard.cardDone = true;
                         gameCard.cardDone = true;
-                        Game.App.game.p1.scorePanel.clickCount++;
-                        Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);                   
+                       // Game.App.game.p1.scorePanel.clickCount++;
+                       // Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);                   
                         correctCards = correctCards + 2;
                         
                         if (correctCards == gameCards.size()) {
@@ -278,10 +284,11 @@ public class DeckPanel extends JPanel implements ActionListener {
         Object obj = e.getSource();
         
         if (obj == time) {
-            // i'm using this to update the time, we probably should be using t, or remove the t from this panel, and just use the timer count on the score panel
-            Game.App.game.p1.scorePanel.timeCount++;
-            Game.App.game.p1.scorePanel.timeLabel.setText("Time: " + Game.App.game.p1.scorePanel.timeCount);
-         
+            if(t%3==0){
+            Game.App.game.p1.scorePanel.timeLeft--;
+            Game.App.game.p1.scorePanel.timeLabel.setText("Time Left: " + Game.App.game.p1.scorePanel.timeLeft);
+            Game.App.game.p1.scorePanel.clicksLabel.setText("Total Score: " + Game.App.game.p1.userScore);
+            }
             t++;
         
         }      

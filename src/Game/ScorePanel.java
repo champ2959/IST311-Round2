@@ -17,8 +17,9 @@ public class ScorePanel extends JPanel{
    
     int clickCount = 0;
     int timeCount = 0;
-    JLabel clicksLabel = new JLabel("Clicks: " + clickCount);
-    JLabel timeLabel = new JLabel("Time: " + timeCount);
+    int timeLeft = 30;
+    JLabel clicksLabel;
+    JLabel timeLabel;
     
     
     
@@ -26,6 +27,10 @@ public class ScorePanel extends JPanel{
     public ScorePanel(){
         
         super();
+       // System.out.println("Round :" + Game.App.game.p1.deckPanel.round);
+        //timeLeft = Game.App.game.p1.deckPanel.round * 30;
+        clicksLabel = new JLabel("Total Score: ");// + Game.App.game.p1.userScore);
+        timeLabel = new JLabel("Time Left: " + timeLeft);
         add(clicksLabel);
         add(timeLabel);
         

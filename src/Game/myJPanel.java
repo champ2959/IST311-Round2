@@ -149,9 +149,8 @@ public class myJPanel extends JPanel implements ActionListener {
                 userScore = userScore + Game.App.game.p1.scorePanel.timeLeft;
                 Game.App.game.p1.scorePanel.timeLeft = 50;
                 
-                if(round == 4){
-                   // game over
-                }
+                if(round != 4){
+                
                 
                 remove(deckPanel);
                 
@@ -192,7 +191,7 @@ public class myJPanel extends JPanel implements ActionListener {
             
         }
        
-        
+        } 
                     
     }
 }
