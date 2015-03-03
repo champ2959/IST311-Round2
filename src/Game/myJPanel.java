@@ -30,7 +30,10 @@ public class myJPanel extends JPanel implements ActionListener {
     JLabel welcome, nameLabel;
     JTextField nameInput;
     String userName;
+    int userScore = 0;
     int delay = 400;
+    
+    HighScore highScore;
     
     public myJPanel() throws IOException {  // why do we need to throw an IOException?
         super();
@@ -143,6 +146,12 @@ public class myJPanel extends JPanel implements ActionListener {
                int round = deckPanel.round + 1; 
                
                time.stop();
+                userScore = userScore + Game.App.game.p1.scorePanel.timeLeft;
+                Game.App.game.p1.scorePanel.timeLeft = 30;
+                
+                if(round == 4){
+                    gameOver();
+                }
                 
                 remove(deckPanel);
                 
