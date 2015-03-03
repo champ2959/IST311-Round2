@@ -147,10 +147,10 @@ public class myJPanel extends JPanel implements ActionListener {
                
                time.stop();
                 userScore = userScore + Game.App.game.p1.scorePanel.timeLeft;
-                Game.App.game.p1.scorePanel.timeLeft = 30;
+                Game.App.game.p1.scorePanel.timeLeft = 50;
                 
                 if(round == 4){
-                    gameOver();
+                   // game over
                 }
                 
                 remove(deckPanel);
