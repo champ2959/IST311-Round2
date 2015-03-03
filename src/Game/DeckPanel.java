@@ -24,7 +24,7 @@ import javax.swing.Timer;
  *
  * @author Erik Galloway, Nahom, Mark
  */
-public class DeckPanel extends JPanel implements ActionListener, MouseListener {
+public class DeckPanel extends JPanel implements ActionListener {
     
     ArrayList deck;
     ArrayList<Card> gameCards = new ArrayList<Card>();  // much easier to work with cards in the deck if we make this an arrayList of Cards
@@ -113,8 +113,6 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
         // Add the cards to the deck panel
         addCards();
         
-        // add the mose listener to count the clicks - this isn't working yet
-        addMouseListener(this);
         
     }  // end constructor
     
@@ -221,7 +219,8 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
                     if (btn.getCardAsString().equals(firstCard.getCardAsString())) {
                         firstCard.cardDone = true;
                         gameCard.cardDone = true;
-                        
+                        Game.App.game.p1.scorePanel.clickCount++;
+                        Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);                   
                         correctCards = correctCards + 2;
                         
                         if (correctCards == gameCards.size()) {
@@ -280,7 +279,7 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
         if (obj == time) {
             // i'm using this to update the time, we probably should be using t, or remove the t from this panel, and just use the timer count on the score panel
             Game.App.game.p1.scorePanel.timeCount++;
-         Game.App.game.p1.scorePanel.timeLabel.setText("Time: " + Game.App.game.p1.scorePanel.timeCount);
+            Game.App.game.p1.scorePanel.timeLabel.setText("Time: " + Game.App.game.p1.scorePanel.timeCount);
          
             t++;
         
@@ -293,6 +292,8 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
             if (cardReset > 1 && secondCard != null) {
                 
                 time.stop();
+                Game.App.game.p1.scorePanel.clickCount++;
+                Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);
                 for (Card gameCard : gameCards) {
                     
                     if ((gameCard == firstCard || gameCard == secondCard) && gameCard.isFaceUp && gameCard.cardDone == false) {
@@ -327,37 +328,5 @@ public class DeckPanel extends JPanel implements ActionListener, MouseListener {
         validate();
         repaint();
                            
-    }  // end action listener
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-       // Game.App.game.p1.scorePanel.clickCount++;
-        // Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);
-         //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-         Game.App.game.p1.scorePanel.clickCount++;
-         Game.App.game.p1.scorePanel.clicksLabel.setText("Clicks: " + Game.App.game.p1.scorePanel.clickCount);
-         
-        // throw new UnsupportedOperationException("Not supported yet.");//To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        
-         throw new UnsupportedOperationException("Not supported yet.");//To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    }    
 }
