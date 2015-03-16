@@ -147,9 +147,18 @@ public class myJPanel extends JPanel implements ActionListener {
                
                time.stop();
                 userScore = userScore + Game.App.game.p1.scorePanel.timeLeft;
-                Game.App.game.p1.scorePanel.timeLeft = 50;
+                Game.App.game.p1.scorePanel.timeLeft = round * 30;
                 
-                if(round != 4){
+                if(round == 2) {
+                    
+                    highScore = new HighScore(userName, userScore);
+                    remove(deckPanel);
+                    add(highScore);
+                    validate();
+                    repaint();
+                    //System.out.println(highScore.getHighScoreString());
+                    return;
+                }
                 
                 
                 remove(deckPanel);
@@ -187,9 +196,9 @@ public class myJPanel extends JPanel implements ActionListener {
                 repaint();
                 
                 
-            }
             
-        }
+            
+            }
        
         } 
                     
